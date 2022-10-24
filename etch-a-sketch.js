@@ -20,7 +20,20 @@ eraserBtn.onclick = () => setCurrentMode("eraser");
 clearBtn.onclick = () => clearGrid()
 
 function setCurrentMode(newMode) {
+    // obtain active and selectedbuttons
+    const current = document.querySelector(".active");
+    const selected = document.querySelector(`#${newMode}Btn`);
+
+    // add and remove class
+    current.classList.remove("active");
+    selected.classList.add('active');
+
+    // reassign variable
     currentMode = newMode;
+}
+
+function switchMode(newMode) {
+    classList.add('active');
 }
 
 function clearGrid() {
@@ -62,6 +75,8 @@ function genDivs(size) {
 function changeColor(e) {
     // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
+
+    // go through modes
     if (currentMode == "color") {
         e.target.style.backgroundColor = currentColor;
     } else if (currentMode == "eraser") {
