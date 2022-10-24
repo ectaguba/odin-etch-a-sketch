@@ -1,57 +1,46 @@
-let gridSize = 100;
-genDivs(gridSize);
-function genDivs(size) {
-    
-    const grid = document.querySelector("#grid-container"); // parent grid
+const DEFAULT_COLOR = '#333333';
+const DEFAULT_MODE = 'color';
+const DEFAULT_SIZE = 16;
 
+let currentColor = DEFAULT_COLOR;
+let currentMode = DEFAULT_MODE;
+let currentSize = DEFAULT_SIZE;
+
+let mouseDown = false
+document.body.onmousedown = () => (mouseDown = true)
+document.body.onmouseup = () => (mouseDown = false)
+
+const grid = document.querySelector("#grid-container"); // parent grid
+let gridSize = 16;
+
+genDivs(gridSize);
+
+function genDivs(size) {
+
+    // set dimensions of columns and squares
+    grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${size}, 1fr)`;
     // create , style, and add gridSize^2 items in parent grid container
     // add event listeners to each square
     for (let i = 0; i < Math.pow(size, 2); i++) { 
         const square = document.createElement('div');
         square.classList.add('square');
+
+        // pass event target (reference to the element to which event was dispatched)
+        square.addEventListener('mousedown', changeColor);
+        square.addEventListener('mouseover', changeColor);
         grid.appendChild(square);
     }
 
-    const squares = document.querySelectorAll('.square');
-    squares.forEach((div) => {
-        div.addEventListener('mousedown', () => {
-            drawSquare(div);
-        });
-    });
 
-    // set dimensions of columns and squares
-    grid.style.gridTemplateColumns = `repeat(${size}, auto)`;
-    grid.style.gridTemplateRows = `repeat(${size}, auto)`;
-
-    /* Stack Overflow Solution - https://stackoverflow.com/questions/11083345/creating-a-dynamic-grid-of-divs-with-javascript
-    for (let i = 0; i < gridSize; i++) { // child of grid, parent of squares
-        const div = document.createElement('div');
-
-        for (let j = 0; j < gridSize; i++) { // child of row
-            const square = document.createElement('div');
-            square.classList.add("square");
-            square.textContent = (i * j);
-            div.appendChild(square);
-        }
-        grid.appendChild(div);
-    }
-    */
 }
 
-function drawSquare(square) {
-    if (square.style.backgroundColor == "white") {
-        square.style.backgroundColor = "black";
+function changeColor(e) {
+    console.log(e.target); // e.target returns element where event was activated
+    if (e.type === "mouseover" && !mouseDown) return;
+    if (e.target.style.backgroundColor == "white") {
+        e.target.style.backgroundColor = "black";
     } else {
-        square.style.backgroundColor = "white";
+        e.target.style.backgroundColor = "white";
     }
 }
-
-/* Shit setDimensions
-function setDimensions(size) {
-    let auto = 'auto'; // first column/row
-    for (let i = 0; i < size - 1; i++) { // rest of columns/rows = all column/rows - 1
-        auto += ' auto';
-    }
-    return auto;
-}
-*/
