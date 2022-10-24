@@ -10,13 +10,39 @@ let mouseDown = false
 document.body.onmousedown = () => (mouseDown = true)
 document.body.onmouseup = () => (mouseDown = false)
 
+const colorBtn = document.querySelector('#colorBtn')
+const rainbowBtn = document.querySelector('#rainbowBtn')
+const eraserBtn = document.querySelector('#eraserBtn')
+const clearBtn = document.querySelector('#clearBtn')
+colorBtn.onclick = () => setCurrentMode("color");
+rainbowBtn.onclick = () => setCurrentMode("rainbow");
+eraserBtn.onclick = () => setCurrentMode("eraser");
+clearBtn.onclick = () => clearGrid()
+
+function setCurrentMode(newMode) {
+    currentMode = newMode;
+}
+
+function clearGrid() {
+    const squares = document.querySelectorAll(".square");
+    squares.forEach((div) => {
+        div.style.backgroundColor = "white";
+    })
+}
+
+function randomColor() {
+    let red = Math.floor(Math.random * 256);
+    let green = Math.floor(Math.random * 256);
+    let blue = Math.floor(Math.random * 256);
+    return `rgb(${red}, ${green}, ${blue})`
+}
+
 const grid = document.querySelector("#grid-container"); // parent grid
 let gridSize = 16;
 
 genDivs(gridSize);
 
 function genDivs(size) {
-
     // set dimensions of columns and squares
     grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -31,16 +57,19 @@ function genDivs(size) {
         square.addEventListener('mouseover', changeColor);
         grid.appendChild(square);
     }
-
-
 }
 
 function changeColor(e) {
-    console.log(e.target); // e.target returns element where event was activated
+    // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
-    if (e.target.style.backgroundColor == "white") {
-        e.target.style.backgroundColor = "black";
-    } else {
+    if (currentMode == "color") {
+        e.target.style.backgroundColor = currentColor;
+    } else if (currentMode == "eraser") {
         e.target.style.backgroundColor = "white";
+    } else if (currentMode == "rainbow") {
+        let red = Math.floor(Math.random() * 256);
+        let green = Math.floor(Math.random() * 256);
+        let blue = Math.floor(Math.random() * 256);
+        e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
     }
 }
