@@ -16,7 +16,10 @@ h1 {
 #main {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 
 #grid-container {
@@ -24,6 +27,7 @@ h1 {
     width: 500px; 
     height: 500px;
     display: grid;
+    box-shadow: 0 0 5px black;
 }
 
 body h2 {
@@ -34,6 +38,29 @@ body h2 {
 .square {
     padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
     background-color: white;
+}
+
+#settings-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
+#settings-container button {
+    padding: 1rem;
+    background-color: #ffbe69;
+    border-radius: 10px;
+    transition: 0.1s;
+}
+
+#settings-container button.active {
+    background-color: black;
+    color: white;
+}
+
+#settings-container button:hover {
+    transform: scale(1.05, 1.05);
 }
 
 footer {
