@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+#grid-container {
+    width: 33%;
+    margin: auto;
+    display: grid;
+    gap: 1px;
+}
+
+.square {
+
+    padding: 10px;
+    background-color: lightgray;
+    border-style: solid;
+    border-color: black;
+}
