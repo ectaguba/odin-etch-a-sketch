@@ -5,19 +5,40 @@
 
 html {
     box-sizing: border-box;
+    background-color: #ffeed8;
+}
+
+h1 {
+    text-align: center;
+    padding: 4rem;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #grid-container {
-    width: 33%;
-    margin: auto;
+    /* size must be fixed to prevent overflowing */
+    width: 500px; 
+    height: 500px;
     display: grid;
-    gap: 1px;
+}
+
+body h2 {
+    text-align: center;
+    padding: 4rem;
 }
 
 .square {
+    padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
+    background-color: white;
+}
 
-    padding: 10px;
-    background-color: lightgray;
-    border-style: solid;
-    border-color: black;
+footer {
+    background-color: #ffbe69;
+    text-align: center;
+    font-weight: bolder;
+    padding: 4rem;
 }
