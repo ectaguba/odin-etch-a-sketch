@@ -112,10 +112,12 @@ function genDivs(size = DEFAULT_SIZE) {
 function draw(e) { // pass square from genDivs
     // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
-
+    if (currentMode != "lighten") {
+        // resets opacity if square was lightened
+        e.target.style.opacity = DEFAULT_OPACITY; 
+    }
     // go through modes
     if (currentMode == "color") {
-        e.target.style.opacity = DEFAULT_OPACITY; // resets opacity if square was lightened
         e.target.style.backgroundColor = currentColor;
     } else if (currentMode == "eraser") {
         e.target.style.backgroundColor = "white";
