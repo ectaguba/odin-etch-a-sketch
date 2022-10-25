@@ -89,6 +89,11 @@ input[type='color']:hover {
     transform: scale(1.05, 1.05);
 }
 
+input[type='checkbox'] {
+    transform: scale(1.5, 1.5);
+    margin-right: 0.5rem;
+}
+
 #sizeLabel {
     text-align: center;
 }

@@ -17,14 +17,17 @@ const colorBtn = document.querySelector('#colorBtn');
 const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
 const clearBtn = document.querySelector('#clearBtn');
+const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
 const sizeLabel = document.querySelector('#sizeLabel');
+
 colorPicker.addEventListener('change', changeColor);
 colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 clearBtn.onclick = () => clearGrid()
 sizeSlider.addEventListener('change', setGridSize);
+sliderLock.addEventListener('input', lockSlider);
 
 // SETTINGS
 function changeColor(newColor) {
@@ -55,6 +58,10 @@ function clearGrid() {
 function setGridSize(event = DEFAULT_SIZE) {
     sizeLabel.textContent = `${event.target.value} x ${event.target.value}`;
     genDivs(event.target.value);
+}
+
+function lockSlider(event) {
+    (event.target.checked) ? sizeSlider.disabled = true : sizeSlider.disabled = false;
 }
 
 // GRID

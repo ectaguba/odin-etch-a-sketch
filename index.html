@@ -14,8 +14,13 @@
             <button id="colorBtn" class="active">Color Mode</button>
             <button id="rainbowBtn">Rainbow Mode</button>
             <button id="eraserBtn">Eraser Mode</button>
-            <button id="clearBtn">Clear Mode</button>
-            <input id="sizeSlider" type="range" value="16" min="1" max="64">
+            <button style="background: transparent;" id="clearBtn">Clear Grid</button>
+            <br>
+            <div style="margin:auto">
+                <input checked id="sliderLock" type="checkbox" value="sliderLock">
+                <label for="sliderLock">Lock Slider</label>
+            </div>
+            <input disabled id="sizeSlider" type="range" value="16" min="1" max="64">
             <label id="sizeLabel">16 x 16</label>
         </div>
         <script src="etch-a-sketch.js"></script> 
