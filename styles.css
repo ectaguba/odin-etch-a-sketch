@@ -33,6 +33,12 @@ h1 {
     box-shadow: 0 0 5px black;
 }
 
+#grid-container-borders {
+    border-style: solid;
+    border-right: 1px;
+    border-bottom: 1px;
+}
+
 @media only screen and (min-width: 769px) {
     #grid-container {
         width: 500px;
@@ -54,6 +60,12 @@ body h2 {
 .square {
     padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
     background-color: white;
+    border-style: solid;
+    border-left: 1px;
+    border-top: 1px;
+}
+
+.square-border {
     border-style: solid;
     border-left: 1px;
     border-top: 1px;

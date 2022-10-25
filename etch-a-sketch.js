@@ -18,7 +18,6 @@ const colorBtn = document.querySelector('#colorBtn');
 const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
 const lightenBtn = document.querySelector('#lightenBtn');
-const borderBtn = document.querySelector('#borderBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
@@ -29,7 +28,6 @@ colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 lightenBtn.onclick = () => setCurrentMode("lighten");
-borderBtn.onclick = () => setCurrentMode("borderBtn");
 clearBtn.onclick = () => clearGrid();
 sizeSlider.addEventListener('change', setGridSize);
 // IMPORTANT: The check passes the opposite state
