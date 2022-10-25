@@ -75,7 +75,6 @@ input[type='color']:hover {
 
 #settings-container button {
     padding: 0.5rem 1rem;
-    background-color: #ffbe69;
     border-radius: 10px;
     transition: 0.1s;
 }
@@ -89,9 +88,19 @@ input[type='color']:hover {
     transform: scale(1.05, 1.05);
 }
 
+#settings-container .mode {
+    background-color: #ffbe69;
+}
+
 input[type='checkbox'] {
     transform: scale(1.5, 1.5);
     margin-right: 0.5rem;
+}
+
+#settings-container button:last-of-type {
+    background-color: #cf142b;
+    color: white;
+    border-color: white;
 }
 
 #sizeLabel {
