@@ -1,6 +1,7 @@
 const DEFAULT_COLOR = '#333333';
 const DEFAULT_MODE = 'color';
 const DEFAULT_SIZE = 16;
+const DEFAULT_OPACITY = 1;
 
 let currentColor = DEFAULT_COLOR;
 let currentMode = DEFAULT_MODE;
@@ -16,6 +17,7 @@ const colorPicker = document.querySelector('#colorPicker');
 const colorBtn = document.querySelector('#colorBtn');
 const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
+const lightenBtn = document.querySelector('#lightenBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
@@ -25,9 +27,10 @@ colorPicker.addEventListener('change', changeColor);
 colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
-clearBtn.onclick = () => clearGrid()
+lightenBtn.onclick = () => setCurrentMode("lighten");
+clearBtn.onclick = () => clearGrid();
 sizeSlider.addEventListener('change', setGridSize);
-// IMPORTANT: Checking the box passes true
+// IMPORTANT: The check passes the opposite state
 sliderLock.addEventListener('input', lockSlider);
 
 // SETTINGS
@@ -66,10 +69,9 @@ function setGridSize(event = DEFAULT_SIZE) {
 }
 
 function lockSlider(event) {
-    // 1. Input checkbox (checked = true)
-    // 2. Confirm check
-    // NOTE: event passes state of checkbox
-    if (!event.target.checked) { // checked passes true
+    // NOTE: Unchecking a checked box will pass false
+    // In other words, the check event will pass the opposite state of the checkbox
+    if (!event.target.checked) {
         let text = "WARNING: Moving the slider will erase your sketch. Continue?";
         if (confirm(text)) {
             sizeSlider.disabled = false; 
@@ -83,6 +85,7 @@ function lockSlider(event) {
         sliderLock.checked = true;
     }
 }
+
 // GRID
 function genDivs(size = DEFAULT_SIZE) {
     // Delete existing grid (remove square children)
@@ -92,6 +95,8 @@ function genDivs(size = DEFAULT_SIZE) {
     // set dimensions of columns and squares
     grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+    grid.style.backgroundColor = 'white'; // backdrop
+
     // create , style, and add gridSize^2 items in parent grid container
     for (let i = 0; i < Math.pow(size, 2); i++) { 
         const square = document.createElement('div');
@@ -104,12 +109,13 @@ function genDivs(size = DEFAULT_SIZE) {
     }
 }
 
-function draw(e) {
+function draw(e) { // pass square from genDivs
     // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
 
     // go through modes
     if (currentMode == "color") {
+        e.target.style.opacity = DEFAULT_OPACITY; // resets opacity if square was lightened
         e.target.style.backgroundColor = currentColor;
     } else if (currentMode == "eraser") {
         e.target.style.backgroundColor = "white";
@@ -117,7 +123,9 @@ function draw(e) {
         let red = Math.floor(Math.random() * 256);
         let green = Math.floor(Math.random() * 256);
         let blue = Math.floor(Math.random() * 256);
-        e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        e.target.style.background = `rgb(${red}, ${green}, ${blue})`;
+    } else if (currentMode == "lighten") {
+        e.target.style.opacity = `${e.target.style.opacity - 0.1}`;
     }
 }
 
