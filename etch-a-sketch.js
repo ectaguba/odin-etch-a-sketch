@@ -18,6 +18,7 @@ const colorBtn = document.querySelector('#colorBtn');
 const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
 const lightenBtn = document.querySelector('#lightenBtn');
+const shadeBtn = document.querySelector('#shadeBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
@@ -28,6 +29,7 @@ colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 lightenBtn.onclick = () => setCurrentMode("lighten");
+shadeBtn.onclick = () => setCurrentMode("shade");
 clearBtn.onclick = () => clearGrid();
 sizeSlider.addEventListener('change', setGridSize);
 // IMPORTANT: The check passes the opposite state
@@ -111,23 +113,30 @@ function genDivs(size = DEFAULT_SIZE) {
 
 function draw(e) { // pass square from genDivs
     // e.target returns element that event was activated upon (div square)
+    let square = e.target;
     if (e.type === "mouseover" && !mouseDown) return;
-    if (currentMode != "lighten") {
-        // resets opacity if square was lightened
+
+    // can't be on lighten or shade
+    if (currentMode != "lighten" && currentMode != "shade") { 
+        // resets opacity if square opacity was changed
         e.target.style.opacity = DEFAULT_OPACITY; 
     }
     // go through modes
     if (currentMode == "color") {
-        e.target.style.backgroundColor = currentColor;
+        square.style.backgroundColor = currentColor;
     } else if (currentMode == "eraser") {
-        e.target.style.backgroundColor = "white";
+        square.style.backgroundColor = "white";
     } else if (currentMode == "rainbow") {
         let red = Math.floor(Math.random() * 256);
         let green = Math.floor(Math.random() * 256);
         let blue = Math.floor(Math.random() * 256);
-        e.target.style.background = `rgb(${red}, ${green}, ${blue})`;
+        square.style.background = `rgb(${red}, ${green}, ${blue})`;
     } else if (currentMode == "lighten") {
-        e.target.style.opacity = `${e.target.style.opacity - 0.1}`;
+        if (square.style.opacity == 0) return;
+        square.style.opacity = `${e.target.style.opacity - 0.1}`;
+    } else if (currentMode == "shade") {  
+        if (square.style.opacity == 1) return;
+        square.style.opacity = `${parseFloat(square.style.opacity) + 0.1}`;
     }
 }
 
