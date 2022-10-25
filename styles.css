@@ -10,12 +10,12 @@ html {
 
 h1 {
     text-align: center;
-    padding: 4rem;
+    padding: 2rem;
 }
 
 #main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -24,10 +24,23 @@ h1 {
 
 #grid-container {
     /* size must be fixed to prevent overflowing */
-    width: 500px; 
-    height: 500px;
+    width: 300px; 
+    height: 300px;
     display: grid;
     box-shadow: 0 0 5px black;
+}
+
+@media only screen and (min-width: 769px) {
+    #grid-container {
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    #main {
+        flex-direction: row;
+    }
 }
 
 body h2 {
@@ -61,7 +74,7 @@ input[type='color']:hover {
 }
 
 #settings-container button {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     background-color: #ffbe69;
     border-radius: 10px;
     transition: 0.1s;

@@ -12,11 +12,11 @@ document.body.onmouseup = () => (mouseDown = false)
 
 const grid = document.querySelector("#grid-container"); // parent grid
 
-const colorPicker = document.querySelector('#colorPicker')
-const colorBtn = document.querySelector('#colorBtn')
-const rainbowBtn = document.querySelector('#rainbowBtn')
-const eraserBtn = document.querySelector('#eraserBtn')
-const clearBtn = document.querySelector('#clearBtn')
+const colorPicker = document.querySelector('#colorPicker');
+const colorBtn = document.querySelector('#colorBtn');
+const rainbowBtn = document.querySelector('#rainbowBtn');
+const eraserBtn = document.querySelector('#eraserBtn');
+const clearBtn = document.querySelector('#clearBtn');
 const sizeSlider = document.querySelector('#sizeSlider');
 const sizeLabel = document.querySelector('#sizeLabel');
 colorPicker.addEventListener('change', changeColor);
