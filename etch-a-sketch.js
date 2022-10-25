@@ -10,17 +10,30 @@ let mouseDown = false
 document.body.onmousedown = () => (mouseDown = true)
 document.body.onmouseup = () => (mouseDown = false)
 
+const grid = document.querySelector("#grid-container"); // parent grid
+
+const colorPicker = document.querySelector('#colorPicker')
 const colorBtn = document.querySelector('#colorBtn')
 const rainbowBtn = document.querySelector('#rainbowBtn')
 const eraserBtn = document.querySelector('#eraserBtn')
 const clearBtn = document.querySelector('#clearBtn')
+const sizeSlider = document.querySelector('#sizeSlider');
+const sizeLabel = document.querySelector('#sizeLabel');
+colorPicker.addEventListener('change', changeColor);
 colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 clearBtn.onclick = () => clearGrid()
+sizeSlider.addEventListener('change', setGridSize);
+
+// SETTINGS
+function changeColor(newColor) {
+    // change to value of color picker
+    currentColor = newColor.target.value;
+}
 
 function setCurrentMode(newMode) {
-    // obtain active and selectedbuttons
+    // obtain active and selected buttons
     const current = document.querySelector(".active");
     const selected = document.querySelector(`#${newMode}Btn`);
 
@@ -32,47 +45,40 @@ function setCurrentMode(newMode) {
     currentMode = newMode;
 }
 
-function switchMode(newMode) {
-    classList.add('active');
-}
-
 function clearGrid() {
-    const squares = document.querySelectorAll(".square");
+    const squares = document.querySelectorAll(".square"); 
     squares.forEach((div) => {
         div.style.backgroundColor = "white";
     })
 }
 
-function randomColor() {
-    let red = Math.floor(Math.random * 256);
-    let green = Math.floor(Math.random * 256);
-    let blue = Math.floor(Math.random * 256);
-    return `rgb(${red}, ${green}, ${blue})`
+function setGridSize(event = DEFAULT_SIZE) {
+    sizeLabel.textContent = `${event.target.value} x ${event.target.value}`;
+    genDivs(event.target.value);
 }
 
-const grid = document.querySelector("#grid-container"); // parent grid
-let gridSize = 16;
-
-genDivs(gridSize);
-
-function genDivs(size) {
+// GRID
+function genDivs(size = DEFAULT_SIZE) {
+    // Delete existing grid (remove square children)
+    while (grid.lastElementChild) {
+        grid.removeChild(grid.lastElementChild);
+    }
     // set dimensions of columns and squares
     grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${size}, 1fr)`;
     // create , style, and add gridSize^2 items in parent grid container
-    // add event listeners to each square
     for (let i = 0; i < Math.pow(size, 2); i++) { 
         const square = document.createElement('div');
         square.classList.add('square');
 
         // pass event target (reference to the element to which event was dispatched)
-        square.addEventListener('mousedown', changeColor);
-        square.addEventListener('mouseover', changeColor);
+        square.addEventListener('mousedown', draw);
+        square.addEventListener('mouseover', draw);
         grid.appendChild(square);
     }
 }
 
-function changeColor(e) {
+function draw(e) {
     // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
 
@@ -88,3 +94,5 @@ function changeColor(e) {
         e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
     }
 }
+
+genDivs(16);

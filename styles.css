@@ -50,8 +50,14 @@ body h2 {
 input[type='color'] {
     width: 80px;
     height: 80px;
+    margin: auto;
     border: none;
     border-radius: 50%;
+    transition: 0.1s;
+}
+
+input[type='color']:hover {
+    transform: scale(1.05, 1.05);
 }
 
 #settings-container button {
@@ -68,6 +74,10 @@ input[type='color'] {
 
 #settings-container button:hover {
     transform: scale(1.05, 1.05);
+}
+
+#sizeLabel {
+    text-align: center;
 }
 
 footer {
