@@ -18,6 +18,7 @@ const colorBtn = document.querySelector('#colorBtn');
 const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
 const lightenBtn = document.querySelector('#lightenBtn');
+const borderBtn = document.querySelector('#borderBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
@@ -28,6 +29,7 @@ colorBtn.onclick = () => setCurrentMode("color");
 rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 lightenBtn.onclick = () => setCurrentMode("lighten");
+borderBtn.onclick = () => setCurrentMode("borderBtn");
 clearBtn.onclick = () => clearGrid();
 sizeSlider.addEventListener('change', setGridSize);
 // IMPORTANT: The check passes the opposite state
@@ -36,6 +38,7 @@ sliderLock.addEventListener('input', lockSlider);
 // SETTINGS
 function changeColor(newColor) {
     // change to value of color picker
+    console.log(newColor.target.value);
     currentColor = newColor.target.value;
 }
 
@@ -109,6 +112,17 @@ function genDivs(size = DEFAULT_SIZE) {
     }
 }
 
+// For lighten mode
+// Solution - https://learnersbucket.com/examples/interview/convert-hex-color-to-rgb-in-javascript/
+function hexToRGB(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    
+    // return {r, g, b} 
+    return `rgb( ${r}, ${g}, ${b}`; // , a)
+}
+
 function draw(e) { // pass square from genDivs
     // e.target returns element that event was activated upon (div square)
     if (e.type === "mouseover" && !mouseDown) return;
@@ -125,7 +139,8 @@ function draw(e) { // pass square from genDivs
         let blue = Math.floor(Math.random() * 256);
         e.target.style.background = `rgb(${red}, ${green}, ${blue})`;
     } else if (currentMode == "lighten") {
-        e.target.style.opacity = `${e.target.style.opacity - 0.1}`;
+        console.log(hexToRGB(currentColor));
+        e.target.style.background = `${hexToRGB(currentColor)}, ${e.target.style.opacity - 0.1}`;
     }
 }
 
