@@ -60,9 +60,6 @@ body h2 {
 .square {
     padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
     background-color: white;
-    border-style: solid;
-    border-left: 1px;
-    border-top: 1px;
 }
 
 .square-border {
