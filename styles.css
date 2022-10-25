@@ -30,12 +30,6 @@ h1 {
     box-shadow: 0 0 5px black;
 }
 
-#grid-container-borders {
-    border-style: solid;
-    border-right: 1px;
-    border-bottom: 1px;
-}
-
 @media only screen and (min-width: 769px) {
     #grid-container {
         width: 500px;
@@ -57,12 +51,6 @@ body h2 {
 .square {
     padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
     background-color: white;
-}
-
-.square-border {
-    border-style: solid;
-    border-left: 1px;
-    border-top: 1px;
 }
 
 #settings-container {
@@ -88,8 +76,6 @@ input[type='color']:hover {
 #settings-container button {
     padding: 0.5rem 1rem;
     background-color: #ffbe69;
-    border-style: solid;
-    border-color: black;
     border-radius: 10px;
     transition: 0.1s;
 }
@@ -103,17 +89,6 @@ input[type='color']:hover {
     transform: scale(1.05, 1.05);
 }
 
-#settings-container button:nth-last-of-type(2) {
-    background: transparent;
-    color: black;
-}
-
-#settings-container button:last-of-type {
-    border-color: white;
-    background-color: #cf142b; 
-    color: white;
-    font-weight: bolder;
-}
 input[type='checkbox'] {
     transform: scale(1.5, 1.5);
     margin-right: 0.5rem;
