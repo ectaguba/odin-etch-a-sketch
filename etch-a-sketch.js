@@ -27,6 +27,7 @@ rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 clearBtn.onclick = () => clearGrid()
 sizeSlider.addEventListener('change', setGridSize);
+// IMPORTANT: Checking the box passes true
 sliderLock.addEventListener('input', lockSlider);
 
 // SETTINGS
@@ -48,22 +49,40 @@ function setCurrentMode(newMode) {
     currentMode = newMode;
 }
 
-function clearGrid() {
-    const squares = document.querySelectorAll(".square"); 
-    squares.forEach((div) => {
-        div.style.backgroundColor = "white";
-    })
+function clearGrid(event) {
+    let text = "Are you SURE you want to clear your sketch?";
+    if (confirm(text)) { // one last confirm before passing true
+        const squares = document.querySelectorAll(".square"); 
+        squares.forEach((div) => {
+            div.style.backgroundColor = "white";
+        })
+    } else {
+        return;
+    } 
 }
-
 function setGridSize(event = DEFAULT_SIZE) {
     sizeLabel.textContent = `${event.target.value} x ${event.target.value}`;
     genDivs(event.target.value);
 }
 
 function lockSlider(event) {
-    (event.target.checked) ? sizeSlider.disabled = true : sizeSlider.disabled = false;
+    // 1. Input checkbox (checked = true)
+    // 2. Confirm check
+    // NOTE: event passes state of checkbox
+    if (!event.target.checked) { // checked passes true
+        let text = "WARNING: Moving the slider will erase your sketch. Continue?";
+        if (confirm(text)) {
+            sizeSlider.disabled = false; 
+            sliderLock.checked = false; // uncheck
+        } else {
+            sizeSlider.disabled = true;
+            sliderLock.checked = true; // stay checked
+        } 
+    } else if (event.target.checked) {
+        sizeSlider.disabled = true;
+        sliderLock.checked = true;
+    }
 }
-
 // GRID
 function genDivs(size = DEFAULT_SIZE) {
     // Delete existing grid (remove square children)
