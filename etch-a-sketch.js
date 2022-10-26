@@ -33,8 +33,7 @@ eraserBtn.onclick = () => setCurrentMode("eraser");
 lightenBtn.onclick = () => setCurrentMode("lighten");
 shadeBtn.onclick = () => setCurrentMode("shade");
 clearBtn.onclick = () => clearGrid();
-sizeSlider.addEventListener('change', setGridSize);
-// IMPORTANT: The check passes the opposite state
+sizeSlider.addEventListener('change', setGridSize); // IMPORTANT: The check passes the opposite state (ex. uncheck -> check passes checked = true)
 sliderLock.addEventListener('input', lockSlider);
 
 // change color picker hex to rgba
@@ -115,6 +114,7 @@ function genDivs(size = DEFAULT_SIZE) {
     // create , style, and add gridSize^2 items in parent grid container
     for (let i = 0; i < Math.pow(size, 2); i++) { 
         const square = document.createElement('div');
+        square.style.backgroundColor = whiteSquare;
         square.classList.add('square');
 
         // pass event target (reference to the element to which event was dispatched)
@@ -160,17 +160,13 @@ function lightenOrShade(squareColor) { // Pass rgba(r, g, b, a) value
     }
 } 
 
-function draw(e) { // pass square element from genDivs
-    
+// pass square element from genDivs()
+function draw(e) {
+
     // e.target returns element that event was activated upon (div square)
     let square = e.target;
     if (e.type === "mouseover" && !mouseDown) return;
 
-    // Can't be on lighten or shade
-    if (currentMode != "lighten" && currentMode != "shade") { 
-        // resets opacity if square opacity was changed
-        e.target.style.opacity = DEFAULT_OPACITY; 
-    }
     // Check modes
     if (currentMode == "color") {
         square.style.backgroundColor = currentColor;
