@@ -1,4 +1,5 @@
-const DEFAULT_COLOR = '#333333';
+// NOTE: Always use rgba() attribute for color.
+const DEFAULT_COLOR = 'rgba(51, 51, 51, 1)';
 const DEFAULT_MODE = 'color';
 const DEFAULT_SIZE = 16;
 const DEFAULT_OPACITY = 1;
@@ -12,6 +13,7 @@ document.body.onmousedown = () => (mouseDown = true)
 document.body.onmouseup = () => (mouseDown = false)
 
 const grid = document.querySelector("#grid-container"); // parent grid
+const whiteSquare = 'rgba(255, 255, 255, 1)'
 
 const colorPicker = document.querySelector('#colorPicker');
 const colorBtn = document.querySelector('#colorBtn');
@@ -35,12 +37,21 @@ sizeSlider.addEventListener('change', setGridSize);
 // IMPORTANT: The check passes the opposite state
 sliderLock.addEventListener('input', lockSlider);
 
-// SETTINGS
-function changeColor(newColor) {
-    // change to value of color picker
-    currentColor = newColor.target.value;
+// change color picker hex to rgba
+function hexToRGB(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, 1)`;
 }
 
+// SETTER
+function changeColor(newColor) {
+    currentColor = hexToRGB(newColor.target.value);
+}
+
+// SETTER - changes how square divs are colored
 function setCurrentMode(newMode) {
     // obtain active and selected buttons
     const current = document.querySelector(".active");
@@ -54,17 +65,18 @@ function setCurrentMode(newMode) {
     currentMode = newMode;
 }
 
-function clearGrid(event) {
+function clearGrid() {
     let text = "Are you SURE you want to clear your sketch?";
     if (confirm(text)) { // one last confirm before passing true
+        // loop through all squares
         const squares = document.querySelectorAll(".square"); 
         squares.forEach((div) => {
-            div.style.backgroundColor = "white";
+            div.style.backgroundColor = whiteSquare;
         })
-    } else {
-        return;
-    } 
+    }
 }
+
+// SETTER
 function setGridSize(event = DEFAULT_SIZE) {
     sizeLabel.textContent = `${event.target.value} x ${event.target.value}`;
     genDivs(event.target.value);
@@ -88,16 +100,17 @@ function lockSlider(event) {
     }
 }
 
-// GRID
+// Grid function
 function genDivs(size = DEFAULT_SIZE) {
     // Delete existing grid (remove square children)
     while (grid.lastElementChild) {
         grid.removeChild(grid.lastElementChild);
     }
+
     // set dimensions of columns and squares
     grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-    grid.style.backgroundColor = 'white'; // backdrop
+    grid.style.backgroundColor = whiteSquare; // backdrop
 
     // create , style, and add gridSize^2 items in parent grid container
     for (let i = 0; i < Math.pow(size, 2); i++) { 
@@ -111,32 +124,67 @@ function genDivs(size = DEFAULT_SIZE) {
     }
 }
 
-function draw(e) { // pass square from genDivs
+/* regex - at least 1-3 digits followed by a comma
+
+/\d{1,3}/g
+
+/ - boundaries
+\d - digit
+{1,3} - sequence of one to three digits
+g - global?
+*/
+
+function lightenOrShade(squareColor) { // Pass rgba(r, g, b, a) value
+    if (squareColor == null || squareColor == 0) return;
+    const re = /\d{1,3}/g; // obtain values
+    let rgbArray = squareColor.match(re); // create array of values
+    let r = parseInt(rgbArray[0]);
+    let g = parseInt(rgbArray[1]);
+    let b = parseInt(rgbArray[2]);
+    if (currentMode == "lighten") {
+        r += 16; 
+        g += 16; 
+        b += 16;
+        if (r > 255) r = 255;
+        if (g > 255) g = 255;
+        if (b > 255) b = 255;
+        return `rgba(${r}, ${g}, ${b}, 1)`;
+    } else if (currentMode == "shade") {
+        r -= 16; 
+        g -= 16;
+        b -= 16;
+        if (r < 0) r = 0;
+        if (g < 0) g = 0;
+        if (b < 0) b = 0;
+        return `rgba(${r}, ${g}, ${b}, 1)`;
+    }
+} 
+
+function draw(e) { // pass square element from genDivs
+    
     // e.target returns element that event was activated upon (div square)
     let square = e.target;
     if (e.type === "mouseover" && !mouseDown) return;
 
-    // can't be on lighten or shade
+    // Can't be on lighten or shade
     if (currentMode != "lighten" && currentMode != "shade") { 
         // resets opacity if square opacity was changed
         e.target.style.opacity = DEFAULT_OPACITY; 
     }
-    // go through modes
+    // Check modes
     if (currentMode == "color") {
         square.style.backgroundColor = currentColor;
     } else if (currentMode == "eraser") {
-        square.style.backgroundColor = "white";
+        square.style.backgroundColor = whiteSquare;
     } else if (currentMode == "rainbow") {
         let red = Math.floor(Math.random() * 256);
         let green = Math.floor(Math.random() * 256);
         let blue = Math.floor(Math.random() * 256);
-        square.style.background = `rgb(${red}, ${green}, ${blue})`;
+        square.style.background = `rgba(${red}, ${green}, ${blue}, 1)`;
     } else if (currentMode == "lighten") {
-        if (square.style.opacity == 0) return;
-        square.style.opacity = `${e.target.style.opacity - 0.1}`;
+        square.style.backgroundColor = lightenOrShade(square.style.backgroundColor);
     } else if (currentMode == "shade") {  
-        if (square.style.opacity == 1) return;
-        square.style.opacity = `${parseFloat(square.style.opacity) + 0.1}`;
+        square.style.backgroundColor = lightenOrShade(square.style.backgroundColor);
     }
 }
 
