@@ -103,6 +103,9 @@ function lockSlider(event) {
 
 // Grid function
 function genDivs(size = DEFAULT_SIZE) {
+
+    if (borderBtn.classList.contains("toggle-on")) borderBtn.classList.toggle("toggle-on");
+
     // Delete existing grid (remove square children)
     while (grid.lastElementChild) {
         grid.removeChild(grid.lastElementChild);
@@ -171,7 +174,6 @@ function lightenOrShade(squareColor) { // Pass rgba(r, g, b, a) value
 
 // pass square element from genDivs()
 function draw(e) {
-
     // e.target returns element that event was activated upon (div square)
     let square = e.target;
     if (e.type === "mouseover" && !mouseDown) return;
