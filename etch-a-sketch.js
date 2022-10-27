@@ -21,6 +21,7 @@ const rainbowBtn = document.querySelector('#rainbowBtn');
 const eraserBtn = document.querySelector('#eraserBtn');
 const lightenBtn = document.querySelector('#lightenBtn');
 const shadeBtn = document.querySelector('#shadeBtn');
+const borderBtn = document.querySelector('#borderBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const sliderLock = document.querySelector('#sliderLock');
 const sizeSlider = document.querySelector('#sizeSlider');
@@ -32,6 +33,7 @@ rainbowBtn.onclick = () => setCurrentMode("rainbow");
 eraserBtn.onclick = () => setCurrentMode("eraser");
 lightenBtn.onclick = () => setCurrentMode("lighten");
 shadeBtn.onclick = () => setCurrentMode("shade");
+borderBtn.onclick = () => toggleBorders();
 clearBtn.onclick = () => clearGrid();
 sizeSlider.addEventListener('change', setGridSize); // IMPORTANT: The check passes the opposite state (ex. uncheck -> check passes checked = true)
 sliderLock.addEventListener('input', lockSlider);
@@ -133,6 +135,13 @@ function genDivs(size = DEFAULT_SIZE) {
 {1,3} - sequence of one to three digits
 g - global?
 */
+
+function toggleBorders() {
+    const squares = document.querySelectorAll(".square");
+    squares.forEach((div) => div.classList.toggle("square-borders")) 
+    grid.classList.toggle("grid-container-borders");
+    borderBtn.classList.toggle("toggle-on");
+}
 
 function lightenOrShade(squareColor) { // Pass rgba(r, g, b, a) value
     if (squareColor == null || squareColor == 0) return;

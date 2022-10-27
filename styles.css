@@ -30,6 +30,13 @@ h1 {
     box-shadow: 0 0 5px black;
 }
 
+.grid-container-borders {
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-right: 1px;
+    border-bottom: 1px;
+}
+
 @media only screen and (min-width: 769px) {
     #grid-container {
         width: 500px;
@@ -51,6 +58,13 @@ body h2 {
 .square {
     padding: 0.1em; /* Square size must be RELATIVE to parent grid-container */
     background-color: rgba(255, 255, 255, 1);
+}
+
+.square-borders {
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-left: 1px;
+    border-top: 1px;
 }
 
 #settings-container {
@@ -91,6 +105,17 @@ input[type='color']:hover {
 #settings-container .mode {
     background-color: #ffbe69;
 }
+
+#settings-container .toggle {
+    background-color: transparent;
+}
+
+#settings-container .toggle-on {
+    background-color: navy;
+    color: white;
+    border-color: white;
+}
+
 
 input[type='checkbox'] {
     transform: scale(1.5, 1.5);
